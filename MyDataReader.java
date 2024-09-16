@@ -46,7 +46,8 @@ public class MyDataReader {
 			int currentIndex = 0;
 			
 			while ((str = br.readLine()) != null) {
-				
+				data[currentIndex] = lineToReport(str);
+			    currentIndex++;
 			}
 		}
 		
