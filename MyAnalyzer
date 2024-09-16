@@ -1,0 +1,40 @@
+package flightpack;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class MyAnalyzer {
+
+	// List of all the Airports in the state of Maine
+    public static Set<String> getAirportsInMaine(Flight[] flights) {
+        Set<String> maineAirports = new HashSet<>();
+
+        for (Flight flight : flights) {
+            if (flight != null) {
+                // Check origin airport
+                if (flight.getOrigin().getState().equalsIgnoreCase("ME")) {
+                    maineAirports.add(flight.getOrigin().getName());
+                }
+                // Check destination airport
+                if (flight.getDestination().getState().equalsIgnoreCase("ME")) {
+                    maineAirports.add(flight.getDestination().getName());
+                }
+            }
+        }
+        return maineAirports;
+    }
+    
+    
+ // The maximum number of passengers coming to PWM (Portland Maine)
+    public static int getMaxPassengersToPWM(Flight[] flights) {
+        int maxPassengers = 0;
+
+        for (Flight flight : flights) {
+            if (flight != null && flight.getDestination().getName().equalsIgnoreCase("PWM") && flight.getDestination().getCity().equalsIgnoreCase("Portland")) {
+                maxPassengers = Math.max(maxPassengers, flight.getPassengers());
+            }
+        }
+        return maxPassengers;
+    }
+    
+}
