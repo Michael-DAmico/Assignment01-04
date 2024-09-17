@@ -1,6 +1,7 @@
 package flightpack;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 //public class MyArrayList {
 	/**
@@ -32,7 +33,7 @@ import java.util.Arrays;
 		}
 		
 		public T get (int index) {
-			if(index<0 || index>size)
+			if(index<0 || index>=size)
 				throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
 			return elements[index];
 			
@@ -43,13 +44,36 @@ import java.util.Arrays;
 			return size;
 		}
 		
-		//public void sort()
-		//public void sort(Comparator<? super T> comparator)
+		// from lecture
+		public void sort() {
+			for (int i = 1; i< this.size; i++)
+				for (int j = i; j> 0 && (elements[j-1]).compareTo(elements[j]) > 0; j--) {
+					T temp = elements[j];
+					elements[j] = elements[j-1];
+					elements[j-1]=temp;
+				}
+		}
+		public String toString() {
+			return Arrays.toString(elements);// this incase its in reverse order and changes it back to a string
+		}
+		public void sort(Comparator<? super T> comparator) {
+			for (int i = 1; i< this.size; i++)
+				for (int j = i; j> 0 && comparator.compare(elements[j-1], elements[j]).compareTo(elements[j]) > 0; j--) {
+					T temp = elements[j];
+					elements[j] = elements[j-1];
+					elements[j-1]=temp;
+				}
+		}
 	
 		public static void main(String[]args) {
-			MyArrayList<String> alist = new MyArrayList<String>();
-			alist.get(0);
-			//System.out.println(false);
+			
+			MyArrayList<Integer> alist = new MyArrayList<Integer>();
+			for(int i=1; i<=100; i++)
+				alist.add("test");
+			alist.sort();// testing the new method sort from lecture I changed the String to Integer to test it
+			//System.out.println(alist.get(0));
+			//System.out.println(alist.size);
+			System.out.println(alist.toString());
 		}
 	
 
