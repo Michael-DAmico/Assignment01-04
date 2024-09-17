@@ -32,6 +32,8 @@ import java.util.Arrays;
 		}
 		
 		public T get (int index) {
+			if(index<0 || index>size)
+				throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
 			return elements[index];
 			
 		}
@@ -44,6 +46,11 @@ import java.util.Arrays;
 		//public void sort()
 		//public void sort(Comparator<? super T> comparator)
 	
-		
+		public static void main(String[]args) {
+			MyArrayList<String> alist = new MyArrayList<String>();
+			alist.get(0);
+			//System.out.println(false);
+		}
 	
+
 }
