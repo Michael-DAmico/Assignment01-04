@@ -1,11 +1,14 @@
+/**
+ * @author Christian Burke and Michael D'Amico
+ * @version 23 September 2024
+ */
 package flightpack;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-//public class MyArrayList {
+
 	/**
-	 * @author Michael
 	 *
 	 * @param <T>
 	 */
@@ -19,6 +22,9 @@ import java.util.Comparator;
 			
 		}
 		
+		/**
+		 * @param element
+		 */
 		public void add (T element) {
 			if (size==elements.length)
 				elements = ensureCapacity();
@@ -26,12 +32,19 @@ import java.util.Comparator;
 			size++;
 		}
 		
+		/**
+		 * @return
+		 */
 		public T[] ensureCapacity() {
 			int capacity = elements.length;
 			capacity*=2;
 				return Arrays.copyOf(elements, capacity);
 		}
 		
+		/**
+		 * @param index
+		 * @return
+		 */
 		public T get (int index) {
 			if(index<0 || index>=size)
 				throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -45,6 +58,9 @@ import java.util.Comparator;
 		}
 		
 		// from lecture
+		/**
+		 * 
+		 */
 		public void sort() {
 			for (int i = 1; i< this.size; i++)
 				for (int j = i; j> 0 && (elements[j-1]).compareTo(elements[j]) > 0; j--) {
@@ -53,21 +69,53 @@ import java.util.Comparator;
 					elements[j-1]=temp;
 				}
 		}
+		/**
+		 *
+		 */
 		public String toString() {
 			return Arrays.toString(elements);// this incase its in reverse order and changes it back to a string
 		}
+		
+		/**
+		 * comparator.compare(elements[j-1], elements[j]) compares elements[j-1] and elements[j].
+		 * If the result of this comparison is greater than 0, it means elements[j-1] is larger, and the two elements need to be swapped.
+		 * The compareTo method you were using is unnecessary here since you're already using a Comparator for comparison.
+		 * @param comparator
+		 */
 		public void sort(Comparator<? super T> comparator) {
 			for (int i = 1; i< this.size; i++)
-				for (int j = i; j> 0 && comparator.compare(elements[j-1], elements[j]).compareTo(elements[j]) > 0; j--) {
+				for (int j = i; j > 0 && comparator.compare(elements[j-1], elements[j]) > 0; j--) {//.compareTo(elements[j]
 					T temp = elements[j];
 					elements[j] = elements[j-1];
 					elements[j-1]=temp;
 				}
 		}
 	
+	// test
 		public static void main(String[]args) {
 			
-			MyArrayList<Integer> alist = new MyArrayList<Integer>();
+			// Create an instance of MyArrayList
+	        MyArrayList<Integer> list = new MyArrayList<>();
+
+	        // Add some elements
+	        list.add(3);
+	        list.add(1);
+	        list.add(2);
+	        
+	        // Test natural sort
+	        list.sort();  // Natural sorting using Comparable
+	        System.out.println("Natural sort: " + list);
+
+	        // Add more elements
+	        list.add(5);
+	        list.add(4);
+
+	        // Test custom sorting with a comparator (for descending order)
+	        list.sort(Comparator.reverseOrder());
+	        System.out.println("Custom sort (descending): " + list);
+	    }
+			//test
+		/*	MyArrayList<Integer> alist = new MyArrayList<Integer>();
 			for(int i=1; i<=100; i++)
 				alist.add("test");
 			alist.sort();// testing the new method sort from lecture I changed the String to Integer to test it
@@ -76,5 +124,6 @@ import java.util.Comparator;
 			System.out.println(alist.toString());
 		}
 	
-
+*/
+	
 }
