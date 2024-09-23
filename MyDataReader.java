@@ -69,7 +69,7 @@ public class MyDataReader {
      * @param filePath the path to the CSV file containing flight data
      * @return an array of {@code Flight} objects read from the file
      */
-	public static Flight[] readDataFile(String filePath) {
+	/**public static Flight[] readDataFile(String filePath) {
 		
 		Flight[] data = new Flight[3000000];
 		
@@ -92,5 +92,27 @@ public class MyDataReader {
 		
 		return data;
 	}
+*/
+	// Modified the readDataFile method in MyDataReader so that instead of returning an array of flights, 
+	// it adds the flights to a MyArrayList object.
+	
+	public static MyArrayList<Flight> readDataFile(String filePath, String state) {
+	    MyArrayList<Flight> flights = new MyArrayList<>();
 
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String str;
+	        br.readLine(); // skip header
+
+	        while ((str = br.readLine()) != null) {
+	            Flight flight = lineToReport(str);
+	            if (flight.getOrigin().getState().equalsIgnoreCase(state)) {
+	                flights.add(flight);
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error while reading the file.");
+	    }
+
+	    return flights;
+	}
 }
