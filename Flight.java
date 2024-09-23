@@ -128,4 +128,8 @@ public class Flight {
 	public void setDistance(int distance) {
 		this.distance = distance;
 	}
+	@Override
+    public int compareTo(Flight other) {
+        return this.flightDate.compareTo(other.flightDate);
+    }
 }
