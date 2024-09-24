@@ -1,129 +1,98 @@
-/**
- * @author Christian Burke and Michael D'Amico
- * @version 23 September 2024
- */
 package flightpack;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
+public class MyArrayList<T extends Comparable<T>> {
+    private T[] elements;
+    private int size = 0;
+    private static final int DEFAULT_CAPACITY = 10;
 
-	/**
-	 *
-	 * @param <T>
-	 */
-	public class MyArrayList<T extends Comparable<T>>{
-		private T[] elements; 
-		private int size = 0;
-		private static final int DEFAULT_CAPACITY = 10;
-		public MyArrayList()
-		{
-			elements = (T[]) new Comparable [DEFAULT_CAPACITY];
-			
-		}
-		
-		/**
-		 * @param element
-		 */
-		public void add (T element) {
-			if (size==elements.length)
-				elements = ensureCapacity();
-			elements[size] = element;
-			size++;
-		}
-		
-		/**
-		 * @return
-		 */
-		public T[] ensureCapacity() {
-			int capacity = elements.length;
-			capacity*=2;
-				return Arrays.copyOf(elements, capacity);
-		}
-		
-		/**
-		 * @param index
-		 * @return
-		 */
-		public T get (int index) {
-			if(index<0 || index>=size)
-				throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-			return elements[index];
-			
-		}
-		
-		
-		public int size() {
-			return size;
-		}
-		
-		// from lecture
-		/**
-		 * 
-		 */
-		public void sort() {
-			for (int i = 1; i< this.size; i++)
-				for (int j = i; j> 0 && (elements[j-1]).compareTo(elements[j]) > 0; j--) {
-					T temp = elements[j];
-					elements[j] = elements[j-1];
-					elements[j-1]=temp;
-				}
-		}
-		/**
-		 *
-		 */
-		public String toString() {
-			return Arrays.toString(elements);// this incase its in reverse order and changes it back to a string
-		}
-		
-		/**
-		 * comparator.compare(elements[j-1], elements[j]) compares elements[j-1] and elements[j].
-		 * If the result of this comparison is greater than 0, it means elements[j-1] is larger, and the two elements need to be swapped.
-		 * The compareTo method you were using is unnecessary here since you're already using a Comparator for comparison.
-		 * @param comparator
-		 */
-		public void sort(Comparator<? super T> comparator) {
-			for (int i = 1; i< this.size; i++)
-				for (int j = i; j > 0 && comparator.compare(elements[j-1], elements[j]) > 0; j--) {//.compareTo(elements[j]
-					T temp = elements[j];
-					elements[j] = elements[j-1];
-					elements[j-1]=temp;
-				}
-		}
-	
-	// test
-		public static void main(String[]args) {
-			
-			// Create an instance of MyArrayList
-	        MyArrayList<Integer> list = new MyArrayList<>();
+    // Constructor
+    @SuppressWarnings("unchecked")
+	public MyArrayList() {
+        elements = (T[]) new Comparable[DEFAULT_CAPACITY]; // Initial capacity
+    }
 
-	        // Add some elements
-	        list.add(3);
-	        list.add(1);
-	        list.add(2);
-	        
-	        // Test natural sort
-	        list.sort();  // Natural sorting using Comparable
-	        System.out.println("Natural sort: " + list);
+    // Method to add elements to the array list
+    public void add(T element) {
+        if (size == elements.length) {
+            ensureCapacity();
+        }
+        elements[size] = element;
+        size++;
+    }
 
-	        // Add more elements
-	        list.add(5);
-	        list.add(4);
+    // Ensure the capacity is doubled if needed
+    private void ensureCapacity() {
+        int newCapacity = elements.length * 2;
+        elements = Arrays.copyOf(elements, newCapacity);
+    }
 
-	        // Test custom sorting with a comparator (for descending order)
-	        list.sort(Comparator.reverseOrder());
-	        System.out.println("Custom sort (descending): " + list);
-	    }
-			//test
-		/*	MyArrayList<Integer> alist = new MyArrayList<Integer>();
-			for(int i=1; i<=100; i++)
-				alist.add("test");
-			alist.sort();// testing the new method sort from lecture I changed the String to Integer to test it
-			//System.out.println(alist.get(0));
-			//System.out.println(alist.size);
-			System.out.println(alist.toString());
-		}
-	
-*/
-	
+    // Method to get an element at a specific index
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        return elements[index];
+    }
+
+    // Return the current size of the array list
+    public int size() {
+        return size;
+    }
+
+    // Natural sort using insertion sort (Comparable-based sorting)
+    public void sort() {
+        for (int i = 1; i < size; i++) {
+            T current = elements[i];
+            int j = i - 1;
+            while (j >= 0 && elements[j].compareTo(current) > 0) {
+                elements[j + 1] = elements[j];
+                j--;
+            }
+            elements[j + 1] = current;
+        }
+    }
+
+    // Sort using a Comparator (insertion sort with comparator)
+    public void sort(Comparator<? super T> comparator) {
+        for (int i = 1; i < size; i++) {
+            T current = elements[i];
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(elements[j], current) > 0) {
+                elements[j + 1] = elements[j];
+                j--;
+            }
+            elements[j + 1] = current;
+        }
+    }
+
+    // Convert the array list to a string representation
+    @Override
+    public String toString() {
+        T[] sortedArray = Arrays.copyOf(elements, size); // Avoid printing extra capacity slots
+        return Arrays.toString(sortedArray);
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        MyArrayList<Integer> list = new MyArrayList<>();
+
+        // Adding elements
+        list.add(3);
+        list.add(1);
+        list.add(2);
+        list.add(5);
+        list.add(4);
+
+        // Test natural sort
+        System.out.println("Before sort: " + list);
+        list.sort();  // Natural sorting using Comparable
+        System.out.println("After natural sort: " + list);
+
+        // Test sorting with a comparator (descending order)
+        list.sort(Comparator.reverseOrder());
+        System.out.println("After custom sort (descending): " + list);
+    }
 }
