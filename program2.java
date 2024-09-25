@@ -7,6 +7,7 @@
  * @version 24 September 2024
  */
 package flightpack;
+import java.util.Scanner;
 
 public class program2 {
 
