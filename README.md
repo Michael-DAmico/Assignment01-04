@@ -36,26 +36,30 @@ Contributions:
 
 Christian
 
-  MyArrayList<Flight> method
-  
-  90% of program 2
-  
-  Javadoc
-  
-  .PDF
+  	MyArrayList<Flight> method,
+  	90% of program 2,
+  	Javadoc,
+	  .PDF
   
   
 Michael
-  FlightComparator class
+	
+ 	FlightComparator class,
+	MyArrayList,
+	compareTo method in Flight class,
+ 	Javadoc,
+	.Pdf
+
+
   
-  MyArrayList
+  Changes Made:
   
-  compareTo method in Flight class
-  
-  Javadoc
-  
-  .Pdf
-  
+  	New class MyArrayList,
+ 	New class FlightComparator,
+ 	New method added in Flight class,
+ 	Modified method MyArrayList<Flight> readDataFile() in MyDataReader class,
+	New class program2,
+ 	Updated Readme.
   
 
 
