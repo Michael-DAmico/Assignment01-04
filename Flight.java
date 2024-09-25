@@ -128,6 +128,15 @@ public class Flight {
 	public void setDistance(int distance) {
 		this.distance = distance;
 	}
+	/**
+     * Compares this flight with another flight based on the flight date and time.
+     * 
+     * The comparison is done using the {@link LocalDateTime#compareTo(LocalDateTime)} method.
+     * 
+     * @param other the flight to be compared with this flight.
+     * @return a negative integer, zero, or a positive integer as this flight is before, 
+     *         equal to, or after the specified flight in terms of flight date and time.
+     */
 	@Override
     public int compareTo(Flight other) {
         return this.flightDate.compareTo(other.flightDate);
