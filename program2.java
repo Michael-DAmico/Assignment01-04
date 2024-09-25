@@ -18,8 +18,13 @@ public class program2 {
      * @param args Command-line arguments. The first argument is the file path for the flight data.
      */
 	public static void main(String[] args) {
-		String filePath = args[0];
-        String state = "ME";
+		
+	Scanner stateInput = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Enter Abbreviated State");  
+        
+        String filePath = args[0];
+        String state = stateInput.next();
+       
 
         
 		 // Read the data file into MyArrayList
