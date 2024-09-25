@@ -35,17 +35,27 @@ This program processes flight data, allowing users to read, sort, and analyze fl
 Contributions:
 
 Christian
+
   MyArrayList<Flight> method
+  
   90% of program 2
+  
   Javadoc
+  
   .PDF
+  
   
 Michael
   FlightComparator class
+  
   MyArrayList
+  
   compareTo method in Flight class
+  
   Javadoc
+  
   .Pdf
+  
   
 
 
