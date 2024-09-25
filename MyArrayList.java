@@ -9,22 +9,31 @@ import java.util.Comparator;
 
 
 	/**
-	 *
-	 * @param <T>
+	 * A custom implementation of an ArrayList that stores elements of a generic type
+	 * and provides methods to add elements, retrieve elements, and sort the list.
+	 * This class implements insertion sort for sorting both with and without a comparator.
+	 * 
+	 * @param <T> The type of elements stored in this list. The type must implement the
+	 * Comparable interface to support sorting.
 	 */
 	public class MyArrayList<T extends Comparable<T>>{
 		private T[] elements; 
 		private int size = 0;
 		private static final int DEFAULT_CAPACITY = 10;
-		public MyArrayList()
-		{
+		
+		/**
+	     * Constructs an empty list with an initial capacity of 10.
+	     */
+		public MyArrayList(){
 			elements = (T[]) new Comparable [DEFAULT_CAPACITY];
-			
 		}
 		
 		/**
-		 * @param element
-		 */
+	     * Adds an element to the list. The list will dynamically resize if the current capacity
+	     * is exceeded.
+	     * 
+	     * @param element The element to be added to the list.
+	     */
 		public void add (T element) {
 			if (size==elements.length)
 				elements = ensureCapacity();
@@ -33,8 +42,11 @@ import java.util.Comparator;
 		}
 		
 		/**
-		 * @return
-		 */
+	     * Ensures that the list has enough capacity to store additional elements by doubling
+	     * the size of the underlying array.
+	     * 
+	     * @return A new array with double the capacity, containing all the existing elements.
+	     */
 		public T[] ensureCapacity() {
 			int capacity = elements.length;
 			capacity*=2;
@@ -42,9 +54,12 @@ import java.util.Comparator;
 		}
 		
 		/**
-		 * @param index
-		 * @return
-		 */
+	     * Retrieves the element at the specified index in the list.
+	     * 
+	     * @param index The index of the element to retrieve.
+	     * @return The element at the specified index.
+	     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size).
+	     */
 		public T get (int index) {
 			if(index<0 || index>=size)
 				throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -52,15 +67,19 @@ import java.util.Comparator;
 			
 		}
 		
-		
+		/**
+	     * Returns the number of elements in the list.
+	     * 
+	     * @return The size of the list.
+	     */
 		public int size() {
 			return size;
 		}
 		
-		// from lecture
 		/**
-		 * 
-		 */
+	     * Sorts the elements in the list in ascending order using insertion sort. The sorting
+	     * is based on the natural ordering of the elements (as defined by the Comparable interface).
+	     */
 		public void sort() {
 			for (int i = 1; i< this.size; i++)
 				for (int j = i; j> 0 && (elements[j-1]).compareTo(elements[j]) > 0; j--) {
@@ -70,8 +89,10 @@ import java.util.Comparator;
 				}
 		}
 		/**
-		 *
-		 */
+	     * Returns a string representation of the list, including all the elements stored in it.
+	     * 
+	     * @return A string representation of the list.
+	     */
 		public String toString() {
 			return Arrays.toString(elements);// this incase its in reverse order and changes it back to a string
 		}
@@ -90,40 +111,4 @@ import java.util.Comparator;
 					elements[j-1]=temp;
 				}
 		}
-	
-	// test
-		public static void main(String[]args) {
-			
-			// Create an instance of MyArrayList
-	        MyArrayList<Integer> list = new MyArrayList<>();
-
-	        // Add some elements
-	        list.add(3);
-	        list.add(1);
-	        list.add(2);
-	        
-	        // Test natural sort
-	        list.sort();  // Natural sorting using Comparable
-	        System.out.println("Natural sort: " + list);
-
-	        // Add more elements
-	        list.add(5);
-	        list.add(4);
-
-	        // Test custom sorting with a comparator (for descending order)
-	        list.sort(Comparator.reverseOrder());
-	        System.out.println("Custom sort (descending): " + list);
-	    }
-			//test
-		/*	MyArrayList<Integer> alist = new MyArrayList<Integer>();
-			for(int i=1; i<=100; i++)
-				alist.add("test");
-			alist.sort();// testing the new method sort from lecture I changed the String to Integer to test it
-			//System.out.println(alist.get(0));
-			//System.out.println(alist.size);
-			System.out.println(alist.toString());
-		}
-	
-*/
-	
-}
+	} 
