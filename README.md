@@ -33,11 +33,13 @@ Overview
 This program processes flight data, allowing users to read, sort, and analyze flight records. The program utilizes a custom ArrayList implementation for storage and sorting.
 
 Contributions:
+
 Christian
   MyArrayList<Flight> method
   90% of program 2
   Javadoc
   .PDF
+  
 Michael
   FlightComparator class
   MyArrayList
