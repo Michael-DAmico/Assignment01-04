@@ -45,7 +45,7 @@ public class program3 {
 
             String line;
             while ((line = br.readLine()) != null) { // Read lines until the end of the file
-                Flight flight = myDataReader.lineToReport(line); // Convert line to Flight object
+                Flight flight = MyDataReader.lineToReport(line); // Convert line to Flight object
 
                 // Check if the flight's origin state matches the filter
                 if (flight.getOrigin().getState().equalsIgnoreCase(originStateFilter)) {
