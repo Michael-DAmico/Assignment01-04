@@ -38,7 +38,6 @@ public class program3 {
      * @param flightList The linked list to store the flights.
      */
     public static void readFlights(String filePath, String originStateFilter, MyLinkedList flightList) {
-        long startTime = System.currentTimeMillis(); // Start timer for performance measurement
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // Skip the header
@@ -56,9 +55,6 @@ public class program3 {
         } catch (IOException e) {
             System.out.println("Error reading the file: " + e.getMessage());
         }
-
-        long endTime = System.currentTimeMillis(); // End timer
-        System.out.println((endTime - startTime) + " milliseconds to read the flights from " + originStateFilter);
     }
 
     /**
