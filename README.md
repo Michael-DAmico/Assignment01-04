@@ -87,3 +87,78 @@ Description: Represents an airport with its associated name, city, and state.
 Purpose: Provides methods to retrieve and modify airport details, used to represent the origin and destination airports in flight data.
 Usage
 To run the program, execute the program2 class, providing the path to the flight data file as a command-line argument, and input a State to sort by. The program will output the time taken to read the file and sort the flights using both natural order and the custom comparator.
+
+
+
+
+
+# Assignment 3
+Flight Data Analysis
+Overview
+This project processes and analyzes flight data from a CSV file, specifically filtering flights from the state of Maine (ME) and determining the total number of passengers departing from selected airports (PWM, BGR, AUG) between the years 1994 and 2009. The data is stored in a custom linked list data structure that allows for efficient insertion and retrieval based on flight date and origin airport.
+
+Contributions:
+
+Christian
+
+  	add(Flight newFlight),
+  	toString(),
+   	90% of the Main program3
+  	Javadoc,
+
+  
+  
+Michael
+	
+ 	class Node
+  	15% add(Flight newFlight)
+	insertSortedByDate(Node newNode),
+	linkByOrigin(Node newNode),
+ 	Iterator<Flight> 
+	.Pdf
+
+
+  
+  Changes Made:
+  
+  	New class MyLinkedList,
+	New class program3,
+ 	Updated Readme.
+  
+
+
+Project Structure
+MyLinkedList.java: A custom linked list implementation to store flights in sorted order by flight date. The list also allows for linking flights based on the origin airport.
+Flight.java: Represents a flight, containing information such as flight date, origin airport, destination, and passenger count.
+MyDataReader.java: A utility class to parse CSV data and convert it into Flight objects.
+program3.java: The main program that reads flight data from a CSV file, stores it in the linked list, and provides analysis on the number of passengers from selected Maine airports during the given time period.
+Features
+Flight Insertion: Efficiently inserts flights into a linked list while maintaining sorted order by flight date.
+Passenger Count Analysis: Calculates and prints the total number of passengers departing from selected airports in Maine (PWM, BGR, AUG) from 1994 to 2009.
+Performance Timing: Measures and displays the time taken to read and process the flight data.
+
+This will:
+
+Read the flight data from the flights.csv file.
+Filter and add flights that originate from Maine (ME) to the linked list.
+Print the total number of passengers from airports PWM, BGR, and AUG between 1994 and 2009.
+
+Performance Metrics
+The program tracks the time taken to:
+
+Read and process flight data from the CSV file.
+Analyze passenger counts for the selected airports.
+
+Key Classes and Methods
+
+
+MyLinkedList:
+add(Flight newFlight): Adds a new flight to the list in sorted order by date.
+iterator(String airport, LocalDateTime start, LocalDateTime end): Returns an iterator for flights from a specific airport within a date range.
+
+
+program3:
+
+
+readFlights(String filePath, String state, MyLinkedList flightList): Reads flight data from a CSV file and adds flights to the list if the origin state matches the filter.
+printPassengerCount(MyLinkedList flights, String airportName): Prints the total number of passengers for a given airport over the years 1994 to 2009.
