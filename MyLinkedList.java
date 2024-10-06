@@ -46,74 +46,9 @@ public class MyLinkedList {
     public void add(Flight newFlight) {
         Node newNode = new Node(newFlight, null, null);
         
-        // Debug statement to show the flight being added
-        //System.out.println("Attempting to add flight: " + newFlight);
+        insertSortedByDate(newNode);
+        linkByOrigin(newNode);
 
-        // Special case for the head end
-        if (header == null || header.data.getFlightDate().compareTo(newFlight.getFlightDate()) > 0) {
-            newNode.next = header;
-            header = newNode;
-            //System.out.println("Added flight at the head: " + newFlight);
-        } else {
-            Node current = header;
-            // Find the correct position to insert the new node
-            while (current.next != null && current.next.data.getFlightDate().compareTo(newFlight.getFlightDate()) < 0) {
-                current = current.next;
-            }
-            newNode.next = current.next;
-            current.next = newNode;
-            //System.out.println("Inserted flight after " + current.data + ": " + newFlight);
-        }
-
-     // Update the nextAirport pointer
-        Node airportNode = header;
-        boolean addedToNextAirport = false;
-
-        while (airportNode != null) {
-            String currentOrigin = airportNode.data.getOrigin().getName().trim();
-            String newFlightOrigin = newFlight.getOrigin().getName().trim();
-
-           // System.out.println("Comparing: " + currentOrigin + " with " + newFlightOrigin);
-
-            if (currentOrigin.equalsIgnoreCase(newFlightOrigin)) {
-                Node temp = airportNode;
-
-                // Check if this is the first flight for this airport
-                if (temp.nextAirport == null) {
-                    temp.nextAirport = newNode; // If it's the first, directly link it
-                    //System.out.println("Added first flight to nextAirport chain: " + newFlight);
-                } else {
-                    // If not the first, find the correct position
-                    //System.out.println("Found existing flights for airport: " + currentOrigin);
-                    if (temp.nextAirport != null && temp.nextAirport.data.getFlightDate().compareTo(newFlight.getFlightDate()) < 0) {
-                       // System.out.println("Moving to nextAirport flight: " + temp.nextAirport.data);
-                        temp = temp.nextAirport;
-                    }
-                    newNode.nextAirport = temp.nextAirport; // Link the new node
-                    temp.nextAirport = newNode; // Insert the new node in the chain
-                   // System.out.println("Added flight to nextAirport chain: " + newFlight);
-                }
-                addedToNextAirport = true;
-                break; // Exit the loop after adding the flight
-            }
-            airportNode = airportNode.next;
-        }
-
-        // After the loop, check if addedToNextAirport is still false
-        if (!addedToNextAirport) {
-            System.out.println("No existing flights found for airport: " + newFlight.getOrigin().getName());
-        }
-
-
-
-
-        if (!addedToNextAirport) {
-            System.out.println("No existing airport node found for: " + newFlight.getOrigin().getName());
-        }
-
-
-        // Final debug statement confirming the flight was added
-        //System.out.println("Flight added: " + newFlight);
     }
 
 
@@ -145,14 +80,30 @@ public class MyLinkedList {
     private void linkByOrigin(Node newNode) {
         Node airportNode = header;
         while (airportNode != null) {
-            if (airportNode.data.getOrigin().getName().equals(newNode.data.getOrigin().getName())) {
+            String currentOrigin = airportNode.data.getOrigin().getName().trim();
+            String newFlightOrigin = newNode.data.getOrigin().getName().trim();
+
+           // System.out.println("Comparing: " + currentOrigin + " with " + newFlightOrigin);
+
+            if (currentOrigin.equalsIgnoreCase(newFlightOrigin)) {
                 Node temp = airportNode;
-                while (temp.nextAirport != null && temp.nextAirport.data.getFlightDate().compareTo(newNode.data.getFlightDate()) < 0) {
-                    temp = temp.nextAirport;
+
+                // Check if this is the first flight for this airport
+                if (temp.nextAirport == null) {
+                    temp.nextAirport = newNode; // If it's the first, directly link it
+                    //System.out.println("Added first flight to nextAirport chain: " + newFlight);
+                } else {
+                    // If not the first, find the correct position
+                    //System.out.println("Found existing flights for airport: " + currentOrigin);
+                    if (temp.nextAirport != null && temp.nextAirport.data.getFlightDate().compareTo(newNode.data.getFlightDate()) < 0) {
+                       // System.out.println("Moving to nextAirport flight: " + temp.nextAirport.data);
+                        temp = temp.nextAirport;
+                    }
+                    newNode.nextAirport = temp.nextAirport; // Link the new node
+                    temp.nextAirport = newNode; // Insert the new node in the chain
+                   // System.out.println("Added flight to nextAirport chain: " + newFlight);
                 }
-                newNode.nextAirport = temp.nextAirport;
-                temp.nextAirport = newNode;
-                break;
+                break; // Exit the loop after adding the flight
             }
             airportNode = airportNode.next;
         }
