@@ -162,3 +162,68 @@ program3:
 
 readFlights(String filePath, String state, MyLinkedList flightList): Reads flight data from a CSV file and adds flights to the list if the origin state matches the filter.
 printPassengerCount(MyLinkedList flights, String airportName): Prints the total number of passengers for a given airport over the years 1994 to 2009.
+
+
+# Assignment 4
+Flight Data Analysis
+Overview
+This project simulates an airport security check queue system using a custom implementation of a generic queue data structure. It analyzes flight data from a CSV file, determines the number of counters required to process passengers efficiently, and outputs the results based on user input.
+
+Contributions: We worked on everything together this just shows who took the lead on the tasks.
+
+Christian
+	
+   	Method calculateMinimumCounters in QueueSimulator
+    	Method addPassengers in QueueSimulator
+     	Method processTheQueue QueueSimulator
+	.Pdf
+  	
+
+  
+  
+Michael
+	
+ 	Method flightSorted in MyDataReader,
+  	Class MyQueue,
+      	Method Simulation in QueueSimulator
+	.Pdf
+
+
+  
+  Changes Made:
+  
+  	New class MyQueue,
+	New class QueueSimulator,
+ 	New class program4,
+  	Addition to class MyDataReader
+ 	Updated Readme.
+  
+
+
+Project Structure
+1. MyQueue<T>
+Description: A generic queue implementation using an ArrayList. It provides basic queue operations such as adding, removing, and inspecting elements.
+Methods:
+boolean offer(T input): Adds an element to the end of the queue.
+T poll(): Removes and returns the element at the front of the queue.
+boolean isEmpty(): Checks if the queue is empty.
+int size(): Returns the current size of the queue.
+T peek(): Returns the element at the front of the queue without removing it.
+2. QueueSimulator
+Description: This class simulates the processing of flight passengers through an airport security queue. It calculates the minimum number of counters required to handle passenger traffic efficiently based on given assumptions.
+Methods:
+boolean simulation(): Runs the simulation over the range of flight dates and processes the queue to determine if all passengers can be processed on time.
+private void addPassengers(LocalDateTime ldt): Adds passengers to the queue based on flight departure times.
+private boolean processQueue(): Processes the queue and determines if the current number of counters is sufficient.
+public static int findMinimumCounters(ArrayList<Flight> sortedFlights): Finds the minimum number of counters required to process all passengers based on the provided flight data.
+3. program4
+Description: The main class that handles user input, reads flight data from a CSV file, and invokes the simulation process. It outputs the results, including the time taken for reading data and finding the minimum number of counters.
+Usage:
+bash
+Copy code
+java program4 <file path> <state> <airport name>
+<file path>: The path to the CSV file containing flight data.
+<state>: The state code used to filter flights based on the origin airport.
+<airport name>: The name of the airport to filter and process flights.
+
+
