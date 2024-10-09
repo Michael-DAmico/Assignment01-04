@@ -4,59 +4,51 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class QueueSimulator {
-	private ArrayList<Flight> aList; // Saves input data
-	private MyQueue<Flight> queue; // used for simulation
-	private int processTime; // the total process time in each day based on counters
-	
-	public QueueSimulator(ArrayList<Flight> alist, int numberCounter){    // minimum amount of counters needed
-		this.aList = aList;
-		queue = new MyQueue<Flight>();
-		processTime = numberCounter * 60*60;
-	}
-	
-	public boolean simulation() {
-		LocalDateTime ldtStart = aList.get(0).getFlightDate();
-		ldtStart = ldtStart.minusHours(1);
-		LocalDateTime ldtEnd = aList.get(aList.size()-1).getFlightDate();
-		for(LocalDateTime ldt = ldtStart; !ldt.isAfter(ldtEnd); ldt = ldt.plusHours(1)) {
-			
-			// add passenger to the queue of time ldt
-			addPassengers(ldt);
-			
-			
-			
-			//process the queue
-			boolean success = processQueue();
-			if (success==false)
-				return false;
-			
-		}
-		return true;
-	}
+    private ArrayList<Flight> aList; // List of all flights
+    private MyQueue<Flight> queue; // Queue for simulation
+    private int processTime; // Total processing time based on counters
 
-	private void addPassengers(LocalDateTime ldt) {
-		while(this.aList.get(0).getFlightDate().equals(ldt.plusHours(1))) {
-			
-			queue.offer(aList.get(0));
-			aList.remove(0);
-		}
-		
-	}
+    public QueueSimulator(ArrayList<Flight> aList, int numberOfCounters) {
+        this.aList = aList;
+        this.queue = new MyQueue<>();
+        this.processTime = numberOfCounters * 3600; // Processing time for all counters in seconds
+    }
 
-	private boolean processQueue() {
-		int currentProcessTime = processTime;
-		while(currentProcessTime > 0 && !queue.isEmpty()) {
-			
-			Flight temp = queue.poll();
-			currentProcessTime -= (6*temp.getPassengers());
-		}
-		if (currentProcessTime<0) {
-			return false;
-		}
-	//	if(queue.isEmpty()) {
-			return true;
-	//	}
-	//	return false;
-	}
-	
+    public int calculateMinimumCounters() {
+        LocalDateTime start = aList.get(0).getFlightDate();
+        LocalDateTime end = aList.get(aList.size() - 1).getFlightDate();
+
+        int totalCountersNeeded = 0;
+
+        for (LocalDateTime date = start; !date.isAfter(end); date = date.plusDays(1)) {
+            for (int hour = 0; hour <= 23; hour++) {
+                LocalDateTime ldt = date.withHour(hour);
+                addPassengers(ldt);
+                if (!processTheQueue()) {
+                    totalCountersNeeded = totalCountersNeeded + 1;
+                }
+            }
+        }
+        return totalCountersNeeded;
+    }
+
+    private void addPassengers(LocalDateTime ldt) {
+        // Add all flights scheduled to depart at (h + 1) hour
+        for (Flight flight : aList) {
+            if (flight.getFlightDate().getHour() == ldt.getHour() + 1 && flight.getFlightDate().toLocalDate().equals(ldt.toLocalDate())) {
+                queue.offer(flight);
+            }
+        }
+    }
+
+    private boolean processTheQueue() {
+        int currentProcessTime = processTime;
+        
+        while (currentProcessTime > 0 && !queue.isEmpty()) {
+            Flight flight = queue.poll();
+            currentProcessTime -= (6 * flight.getPassengers()); // Each passenger takes 6 seconds
+        }
+        
+        return currentProcessTime >= 0;
+    }
 }
