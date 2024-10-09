@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -38,7 +40,7 @@ public class MyDataReader {
      * @param inputLine A comma-separated string representing flight data.
      * @return A {@link Flight} object created from the parsed data.
      */
-    private static Flight lineToReport(String inputLine) {
+    static Flight lineToReport(String inputLine) {
         String[] items = inputLine.split(",");
 
         String originName = items[0];
@@ -54,9 +56,11 @@ public class MyDataReader {
         LocalDateTime flightDate = dateConvert(items[9]);
 
         Flight flight = new Flight(origin, destination, flightDate, passengers, seats, distance);
-        //System.out.println("Created Flight: " + flight); // Debug statement
+        //System.out.println("Created Flight: " + flight.getFlightDate()); // Debug statement
         return flight;
     }
+    
+    
 
     /**
      * Reads flight data from a file and filters the flights based on the origin state.
@@ -66,8 +70,8 @@ public class MyDataReader {
      * @param originStateFilter The state code used to filter flights based on the origin airport.
      * @return A {@link MyArrayList} of {@link Flight} objects that originate from the specified state.
      */
-    public static MyArrayList<Flight> readDataFile(String filePath, String originStateFilter) {
-        MyArrayList<Flight> flights = new MyArrayList<>();
+    public static ArrayList<Flight> readDataFile(String filePath, String originStateFilter) {
+        ArrayList<Flight> flights = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -84,5 +88,25 @@ public class MyDataReader {
         }
 
         return flights;
+    }
+    
+    
+    /**
+     * Returns a sorted list of flights originating from the specified airport.
+     * 
+     * @param airportName The name of the origin airport.
+     * @return A sorted ArrayList of flights originating from the specified airport.
+     */
+    public static ArrayList<Flight> flightSorted(ArrayList<Flight> flights, String airportName) {
+        ArrayList<Flight> sortedFlights = new ArrayList<>();
+        
+        for (Flight flight : flights) {
+            if (flight.getOrigin().getName().equalsIgnoreCase(airportName)) {
+                sortedFlights.add(flight);
+            }
+        }
+        
+        Collections.sort(sortedFlights); // Sort based on flightDate
+        return sortedFlights;
     }
 }
